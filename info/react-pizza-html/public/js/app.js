@@ -1,28 +1,28 @@
-"use strict";
+'use strict';
 
-var prevScrollpos = window.pageYOffset;
-var sliderIndex = 1;
-var scrolled = window.scrollY >= 100;
-var isScrolling = false;
-var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+let prevScrollpos = window.pageYOffset;
+let sliderIndex = 1;
+let scrolled = window.scrollY >= 100;
+let isScrolling = false;
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 function scrollToBlock() {
-  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  const obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   isScrolling = true;
   $('html,body').animate({
-    scrollTop: $(obj.block || '.drimclub-benefit').offset().top - (obj.offsetY || 0)
-  }, 1000, function () {
+    scrollTop: $(obj.block || '.drimclub-benefit').offset().top - (obj.offsetY || 0),
+  }, 1000, () => {
     isScrolling = false;
   });
 }
 
-$(document).bind('mousewheel DOMMouseScroll', function (event) {
+$(document).bind('mousewheel DOMMouseScroll', (event) => {
   if (!scrolled || isScrolling) {
     event.preventDefault();
   }
 
-  var delta = -event.originalEvent.wheelDelta || event.originalEvent.detail;
+  const delta = -event.originalEvent.wheelDelta || event.originalEvent.detail;
 
   if (!scrolled && delta > 0) {
     scrollToBlock();
@@ -32,11 +32,11 @@ $(document).bind('mousewheel DOMMouseScroll', function (event) {
   if (scrolled && window.scrollY <= $('.drimclub-benefit').offset().top && delta < 0) {
     isScrolling = true;
     $('html,body').animate({
-      scrollTop: 0
-    }, 1000, function () {
+      scrollTop: 0,
+    }, 1000, () => {
       isScrolling = false;
 
-      if ($('.header').hasClass('header--hide')) {// $('.header').removeClass('header--hide');
+      if ($('.header').hasClass('header--hide')) { // $('.header').removeClass('header--hide');
       }
     });
     $('.header').removeClass('header--in-white');
@@ -45,15 +45,15 @@ $(document).bind('mousewheel DOMMouseScroll', function (event) {
 });
 
 document.onkeydown = function (_ref) {
-  var keyCode = _ref.keyCode;
+  const keyCode = _ref.keyCode;
 
   if (keyCode === 40 && !scrolled) {
     scrollToBlock();
   }
 };
 
-$(window).on('scroll', function (a, b, c) {
-  var headerOffset = $('.header').outerHeight();
+$(window).on('scroll', (a, b, c) => {
+  const headerOffset = $('.header').outerHeight();
 
   if ($(window).scrollTop() + headerOffset >= $('.drimclub-benefit').offset().top && $(window).scrollTop() + headerOffset < $('.drimclub-benefit').outerHeight() + $('.drimclub-benefit').offset().top) {
     $('.header').addClass('header--in-white');
@@ -83,16 +83,15 @@ $(window).on('scroll', function (a, b, c) {
     $('.header').addClass('header--in-white');
   }
 
-  var currentScrollPos = window.pageYOffset;
-  var notHideInMobileMain = window.scrollY < 300;
+  const currentScrollPos = window.pageYOffset;
+  const notHideInMobileMain = window.scrollY < 300;
 
   if (prevScrollpos > currentScrollPos && !isScrolling) {
     if (isMobile && notHideInMobileMain) {
       return;
     } // $('.header').removeClass('header--hide');
-
-  } else {// $('.header').addClass('header--hide');
-    }
+  } else { // $('.header').addClass('header--hide');
+  }
 
   prevScrollpos = currentScrollPos;
 }); // $(window).mousemove(function(e) {
@@ -144,13 +143,13 @@ function setBigSlide(obj) {
 
   if (sliderIndex === 3) {
     $('.big-slider .button--next').animate({
-      opacity: 0
+      opacity: 0,
     }, 150, function () {
       $(this).hide();
     });
   } else {
     $('.big-slider .button--next').show().animate({
-      opacity: 1
+      opacity: 1,
     }, 150);
   } // let lastIndex = sliderIndex - 1;
   // $(".big-slider__images ul li")
@@ -160,28 +159,27 @@ function setBigSlide(obj) {
   //   .addClass("active")
   //   .animate({ opacity: 1 }, 200);
 
-
   $('.big-slider__images ul li').removeClass('active').animate({
-    opacity: 0
+    opacity: 0,
   }, 300);
-  $('.big-slider__images ul li[data-index="' + sliderIndex + '"]').addClass('active').animate({
-    opacity: 1
+  $(`.big-slider__images ul li[data-index="${sliderIndex}"]`).addClass('active').animate({
+    opacity: 1,
   }, 300);
   $('.big-slider__informations ul li').removeClass('active');
-  $('.big-slider__informations ul li[data-index="' + sliderIndex + '"]').addClass('active');
+  $(`.big-slider__informations ul li[data-index="${sliderIndex}"]`).addClass('active');
 }
 
-$(document).ready(function () {
+$(document).ready(() => {
   new Typewriter(document.querySelector('.main-block__title-animated'), {
-    loop: true
+    loop: true,
   }).typeString('Дримклуб').pauseFor(2500).deleteAll().typeString('Дримсим').pauseFor(2500).start();
   setBigSlide({
     method: 'init',
-    index: 1
+    index: 1,
   });
 
   if (!is_safari) {
-    $('.main-block').mousemove(function (e) {
+    $('.main-block').mousemove((e) => {
       parallaxIt(e, '#Path-Copy-3', -15);
       parallaxIt(e, '#mask-8', 15);
       parallaxIt(e, '#Path-Copy-4', -20);
@@ -195,23 +193,23 @@ $(document).ready(function () {
   }
 
   function parallaxIt(e, target, movement) {
-    var $this = $('.main-block');
-    var relX = e.pageX - $this.offset().left;
-    var relY = e.pageY - $this.offset().top;
+    const $this = $('.main-block');
+    const relX = e.pageX - $this.offset().left;
+    const relY = e.pageY - $this.offset().top;
     TweenMax.to(target, 1, {
       x: (relX - $this.width() / 2) / $this.width() * movement,
-      y: (relY - $this.height() / 2) / $this.height() * movement
+      y: (relY - $this.height() / 2) / $this.height() * movement,
     });
   }
 
-  $('.big-slider button.button--next').click(function () {
+  $('.big-slider button.button--next').click(() => {
     if (sliderIndex < 3) {
       setBigSlide({
-        method: 'next'
+        method: 'next',
       });
     } else {
       setBigSlide({
-        method: 'prev'
+        method: 'prev',
       });
     }
   });
@@ -220,28 +218,28 @@ $(document).ready(function () {
 
     if ($(this).hasClass('is-active')) {
       $('.header__mobile-menu').addClass('header__mobile-menu--show');
-      setTimeout(function () {
+      setTimeout(() => {
         $('.header__mobile-menu ul').css({
-          transform: 'translateY(0)'
+          transform: 'translateY(0)',
         });
       });
     } else {
       $('.header__mobile-menu ul').css({
-        transform: 'translateY(-550px)'
+        transform: 'translateY(-550px)',
       });
-      setTimeout(function () {
+      setTimeout(() => {
         $('.header__mobile-menu').removeClass('header__mobile-menu--show');
       }, 400);
     }
   });
-  $('.big-slider button.button--prev').click(function () {
+  $('.big-slider button.button--prev').click(() => {
     setBigSlide({
-      method: 'prev'
+      method: 'prev',
     });
   });
   $('.drimclub-benefit__blocks-item').click(function () {
-    var block = $(this).data('scroll-block');
-    var offset = 0;
+    const block = $(this).data('scroll-block');
+    let offset = 0;
 
     if (block === 'discounts-block__audio-courses') {
       offset = 120;
@@ -258,8 +256,8 @@ $(document).ready(function () {
     }
 
     scrollToBlock({
-      block: ".".concat(block),
-      offsetY: offset
+      block: '.'.concat(block),
+      offsetY: offset,
     });
   });
 });

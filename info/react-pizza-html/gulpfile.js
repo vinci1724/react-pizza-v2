@@ -1,11 +1,11 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
-const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const babel = require('gulp-babel');
 const ejs = require('gulp-ejs');
 const plumber = require('gulp-plumber');
-const babel = require('gulp-babel');
+const sass = require('gulp-sass');
 const uglify = require('gulp-uglify');
-const autoprefixer = require('gulp-autoprefixer');
 
 gulp.task('scss', () => {
   return gulp
