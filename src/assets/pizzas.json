@@ -1,0 +1,122 @@
+[
+  {
+    "id": 0,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198bf39dda97082912be8d1f3f2b233.webp",
+    "title": "Пепперони",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 395,
+    "category": 0,
+    "rating": 10
+  },
+  {
+    "id": 1,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198bf3d788b78d491891a6da5e94bf1.webp",
+    "title": "Маргарита",
+    "types": [0, 1],
+    "sizes": [26, 30],
+    "price": 345,
+    "category": 1,
+    "rating": 9
+  },
+  {
+    "id": 2,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/019f7516635874e6b5ffa526093db47f.webp",
+    "title": "Четыре сыра",
+    "types": [0],
+    "sizes": [26, 30, 40],
+    "price": 455,
+    "category": 1,
+    "rating": 10
+  },
+  {
+    "id": 3,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198bf530345746e98039478001d5108.webp",
+    "title": "Гавайская",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 425,
+    "category": 2,
+    "rating": 8
+  },
+  {
+    "id": 4,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198bf3b88d5772695c7f9e557b5b196.webp",
+    "title": "Мясная",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 495,
+    "category": 2,
+    "rating": 9
+  },
+  {
+    "id": 5,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198da9ffdfe782bb8d982b10c5e6b43.webp",
+    "title": "Деревенская",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 445,
+    "category": 3,
+    "rating": 9
+  },
+  {
+    "id": 6,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198bf2cc87a79baa946c53b634615f4.webp",
+    "title": "Цыпленок BBQ",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 475,
+    "category": 3,
+    "rating": 10
+  },
+  {
+    "id": 7,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198bf47733e787a98ed55d13e9a2251.webp",
+    "title": "Четыре сезона",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 395,
+    "category": 4,
+    "rating": 10
+  },
+  {
+    "id": 8,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/019f7512e8dd78cc86ec195c3d3525f6.webp",
+    "title": "Острая пепперони",
+    "types": [0],
+    "sizes": [26, 30, 40],
+    "price": 465,
+    "category": 4,
+    "rating": 9
+  },
+  {
+    "id": 9,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/019f5a94f92d740383ad5355cf61df4c.webp",
+    "title": "Сырная с ветчиной",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 435,
+    "category": 5,
+    "rating": 8
+  },
+  {
+    "id": 10,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/019d393af27672229e382b37b1988f6c.webp",
+    "title": "Грибная",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 375,
+    "category": 5,
+    "rating": 9
+  },
+  {
+    "id": 11,
+    "imageUrl": "https://media.dodostatic.net/image/r:584x584/0198bf439a007604880d0231be87cd3e.webp",
+    "title": "Барбекю",
+    "types": [0, 1],
+    "sizes": [26, 30, 40],
+    "price": 465,
+    "category": 0,
+    "rating": 10
+  }
+]
