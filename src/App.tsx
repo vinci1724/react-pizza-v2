@@ -1,36 +1,24 @@
-import pizzas from './assets/pizzas.json';
+import { useState } from 'react';
+import { Route, Routes } from 'react-router';
+
 import Header from './components/Header';
-import PizzaBlock from './components/PizzaBlock';
-import Sort from './components/Sort';
-import Сategories from './components/Сategories';
+import Cart from './pages/Cart';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 import './scss/app.scss';
 
 const App = () => {
+  const [searchValue, setSearchValue] = useState('');
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="content">
-        <div className="container">
-          <div className="content__top">
-            <Сategories />
-            <Sort />
-          </div>
-          <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {
-              pizzas.map(obj => (
-                <PizzaBlock
-                  key={obj.id}
-                  title={obj.title}
-                  price={obj.price}
-                  imageUrl={obj.imageUrl}
-                  sizes={obj.sizes}
-                  types={obj.types}
-                />
-              ))
-            }
-          </div>
-        </div>
+        <Routes>
+          <Route path="/" element={<Home searchValue={searchValue} />}></Route>
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Routes>
       </div>
     </div>
   );
