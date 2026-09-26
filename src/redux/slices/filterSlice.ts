@@ -1,14 +1,32 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
+export type SortProperty
+  = | 'rating'
+    | '-rating'
+    | 'price'
+    | '-price'
+    | 'title'
+    | '-title';
+
+export interface SortItem {
+  name: string;
+  sortProperty: SortProperty;
+}
+
 // Тип состояния этого среза, попадает в стор как state.filter
 export interface FilterState {
-  category: number;
+  categoryId: number;
+  sort: SortItem;
 }
 
 // Начальное состояние: активная категория — 0 («Все»)
 const initialState: FilterState = {
-  category: 0,
+  categoryId: 0,
+  sort: {
+    name: 'популярности (DESC)',
+    sortProperty: 'rating',
+  },
 };
 
 export const filterSlice = createSlice({
@@ -17,14 +35,17 @@ export const filterSlice = createSlice({
   // reducers — логика изменения state. RTK по каждому ключу сам создаёт action creator
   reducers: {
     // Immer позволяет мутировать state напрямую — вернётся новый неизменяемый объект
-    changeCategory: (state, action: PayloadAction<number>) => {
-      state.category = action.payload;
+    setCategoryId: (state, action: PayloadAction<number>) => {
+      state.categoryId = action.payload;
+    },
+    setSort: (state, action: PayloadAction<SortItem>) => {
+      state.sort = action.payload;
     },
   },
 });
 
 // Автосгенерированные action creators для dispatch из компонентов
-export const { changeCategory } = filterSlice.actions;
+export const { setCategoryId, setSort } = filterSlice.actions;
 
 // Редьюсер среза — подключается в configureStore
 export default filterSlice.reducer;
