@@ -1,0 +1,19 @@
+import { configureStore } from '@reduxjs/toolkit';
+
+import filterReducer from './slices/filterSlice';
+
+// Глобальный Redux-стор. Ключи в reducer — срезы (slice) приложения;
+// здесь ключ `filter` кладёт состояние среза в state.filter
+export const store = configureStore({
+  reducer: {
+    filter: filterReducer,
+  },
+});
+
+// Тип всего состояния стора, автоматически выведенный из самого стора.
+// Нужен для типизации useSelector, чтобы state был типизирован.
+export type RootState = ReturnType<typeof store.getState>;
+
+// Тип функции dispatch, выведенный из стора. Нужен для типизации useDispatch,
+// чтобы учитывались middleware (например, redux-thunk).
+export type AppDispatch = typeof store.dispatch;
