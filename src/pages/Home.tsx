@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { use, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -36,9 +37,10 @@ const Home = () => {
       const sortBy = sortType.replace('-', '');
       const order = sortType.includes('-') ? 'asc' : 'desc';
       const search = searchValue ? `&search=${searchValue}` : '';
-      const response = await fetch(`https://6ab5177f24ee9d3caa1c2b61.mockapi.io/items?page=${currentPage}&limit=4&${category}sortBy=${sortBy}&order=${order}${search}`);
-      const data = await response.json();
-      setPizzas(data);
+      // const response = await fetch(`https://6ab5177f24ee9d3caa1c2b61.mockapi.io/items?page=${currentPage}&limit=4&${category}sortBy=${sortBy}&order=${order}${search}`);
+      // const data = await response.json();
+      const response = await axios.get(`https://6ab5177f24ee9d3caa1c2b61.mockapi.io/items?page=${currentPage}&limit=4&${category}sortBy=${sortBy}&order=${order}${search}`);
+      setPizzas(response.data);
       setIsLoading(false);
     };
 
