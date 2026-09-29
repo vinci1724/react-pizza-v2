@@ -45,7 +45,7 @@ const Sort = () => {
         <div className="sort__popup">
           <ul>
             {
-              list.map((obj, i) => (
+              list.map(obj => (
                 <li
                   key={obj.name}
                   onClick={() => onClickListItem(obj)}

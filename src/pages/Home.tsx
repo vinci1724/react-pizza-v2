@@ -8,15 +8,20 @@ import PizzaBlock from '../components/PizzaBlock';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
 import { SearchContext } from '../context/SearchContext';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 
 const Home = () => {
   const categoryId = useSelector(state => state.filter.categoryId);
+  const currentPage = useSelector(state => state.filter.currentPage);
   const sortType = useSelector(state => state.filter.sort.sortProperty);
   const dispatch = useDispatch();
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
+  };
+
+  const onChangePage = (page: number) => {
+    dispatch(setCurrentPage(page));
   };
 
   const { searchValue } = use(SearchContext);
@@ -28,7 +33,7 @@ const Home = () => {
   //   name: 'популярности (DESC)',
   //   sortProperty: 'rating',
   // });
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const getData = async () => {
@@ -77,7 +82,7 @@ const Home = () => {
       <div className="content__items">
         {isLoading ? skeletons : items}
       </div>
-      <Pagination onChangePage={pageNumber => setCurrentPage(pageNumber)} />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import antfu from '@antfu/eslint-config';
 
 export default antfu({
+  ignores: ['info'],
   react: true,
   stylistic: {
     semi: true,

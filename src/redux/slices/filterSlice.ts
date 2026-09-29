@@ -17,12 +17,14 @@ export interface SortItem {
 // Тип состояния этого среза, попадает в стор как state.filter
 export interface FilterState {
   categoryId: number;
+  currentPage: number;
   sort: SortItem;
 }
 
 // Начальное состояние: активная категория — 0 («Все»)
 const initialState: FilterState = {
   categoryId: 0,
+  currentPage: 1,
   sort: {
     name: 'популярности (DESC)',
     sortProperty: 'rating',
@@ -41,11 +43,14 @@ export const filterSlice = createSlice({
     setSort: (state, action: PayloadAction<SortItem>) => {
       state.sort = action.payload;
     },
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload;
+    },
   },
 });
 
 // Автосгенерированные action creators для dispatch из компонентов
-export const { setCategoryId, setSort } = filterSlice.actions;
+export const { setCategoryId, setSort, setCurrentPage } = filterSlice.actions;
 
 // Редьюсер среза — подключается в configureStore
 export default filterSlice.reducer;
