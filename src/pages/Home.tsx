@@ -1,7 +1,11 @@
+import type { RootState } from '../redux/store';
+import type { Pizza } from '../types';
 import axios from 'axios';
-import { use, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import qs from 'qs';
+import { use, useEffect, useRef, useState } from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
@@ -11,10 +15,12 @@ import { SearchContext } from '../context/SearchContext';
 import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 
 const Home = () => {
-  const categoryId = useSelector(state => state.filter.categoryId);
-  const currentPage = useSelector(state => state.filter.currentPage);
-  const sortType = useSelector(state => state.filter.sort.sortProperty);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const categoryId = useSelector((state: RootState) => state.filter.categoryId);
+  const currentPage = useSelector((state: RootState) => state.filter.currentPage);
+  const sortType = useSelector((state: RootState) => state.filter.sort.sortProperty);
+  const isMountedRef = useRef(false);
 
   const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
@@ -26,7 +32,7 @@ const Home = () => {
 
   const { searchValue } = use(SearchContext);
 
-  const [pizzas, setPizzas] = useState([]);
+  const [pizzas, setPizzas] = useState<Pizza[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   // const [categoryId, setCategoryId] = useState(0);
   // const [sortType, setSortType] = useState({
@@ -35,7 +41,7 @@ const Home = () => {
   // });
   // const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
+  const fetchPizzas = () => {
     const getData = async () => {
       setIsLoading(true);
       const category = categoryId > 0 ? `category=${categoryId}&` : '';
@@ -50,10 +56,30 @@ const Home = () => {
     };
 
     getData();
+  };
+
+  useEffect(() => {
     window.scrollTo(0, 0);
+    fetchPizzas();
   }, [categoryId, sortType, searchValue, currentPage]);
 
-  const skeletons = [...Array.from({ length: 12 })].map((_, index) => <Skeleton key={index} />);
+  useEffect(() => {
+    if (isMountedRef.current) {
+      const queryString = qs.stringify({
+        sortBy: sortType,
+        categoryId,
+        currentPage,
+      });
+
+      navigate(`?${queryString}`);
+    }
+
+    isMountedRef.current = true;
+  }, [categoryId, sortType, currentPage, navigate]);
+
+  const skeletons = [...Array.from({ length: 12 })].map((_, index) => (
+    // eslint-disable-next-line react/no-array-index-key -- статичные заглушки без идентичности
+    <Skeleton key={index} />));
   const items = pizzas
     // .filter((obj) => {
     //   if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {

@@ -1,3 +1,4 @@
+import type { ChangeEvent } from 'react';
 import { debounce } from 'lodash';
 import { use, useCallback, useRef, useState } from 'react';
 
@@ -23,7 +24,7 @@ const Search = () => {
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };

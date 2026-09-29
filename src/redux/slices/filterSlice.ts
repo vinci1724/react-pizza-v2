@@ -46,11 +46,16 @@ export const filterSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
+    setFilters: (state, action: PayloadAction<FilterState>) => {
+      state.categoryId = Number(action.payload.categoryId);
+      state.currentPage = Number(action.payload.currentPage);
+      state.sort = action.payload.sort;
+    },
   },
 });
 
 // Автосгенерированные action creators для dispatch из компонентов
-export const { setCategoryId, setSort, setCurrentPage } = filterSlice.actions;
+export const { setCategoryId, setSort, setCurrentPage, setFilters } = filterSlice.actions;
 
 // Редьюсер среза — подключается в configureStore
 export default filterSlice.reducer;

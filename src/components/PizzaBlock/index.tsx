@@ -1,8 +1,9 @@
+import type { Pizza } from '../../types';
 import { useState } from 'react';
 
 const typeNames = ['тонкое', 'традиционное'];
 
-const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
+const PizzaBlock = ({ title, price, imageUrl, sizes, types }: Omit<Pizza, 'id'>) => {
   const [pizzaCount, setPizzaCount] = useState(0);
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
@@ -48,9 +49,6 @@ const PizzaBlock = ({ title, price, imageUrl, sizes, types }) => {
                 </li>
               ))
             }
-            {/* <li className="active">26 см.</li>
-          <li>30 см.</li>
-          <li>40 см.</li> */}
           </ul>
         </div>
         <div className="pizza-block__bottom">
