@@ -16,6 +16,7 @@ export interface SortItem {
 
 // Тип состояния этого среза, попадает в стор как state.filter
 export interface FilterState {
+  searchValue: string;
   categoryId: number;
   currentPage: number;
   sort: SortItem;
@@ -23,6 +24,7 @@ export interface FilterState {
 
 // Начальное состояние: активная категория — 0 («Все»)
 const initialState: FilterState = {
+  searchValue: '',
   categoryId: 0,
   currentPage: 1,
   sort: {
@@ -37,6 +39,9 @@ export const filterSlice = createSlice({
   // reducers — логика изменения state. RTK по каждому ключу сам создаёт action creator
   reducers: {
     // Immer позволяет мутировать state напрямую — вернётся новый неизменяемый объект
+    setSearchValue: (state, action: PayloadAction<string>) => {
+      state.searchValue = action.payload;
+    },
     setCategoryId: (state, action: PayloadAction<number>) => {
       state.categoryId = action.payload;
     },
@@ -55,7 +60,7 @@ export const filterSlice = createSlice({
 });
 
 // Автосгенерированные action creators для dispatch из компонентов
-export const { setCategoryId, setSort, setCurrentPage, setFilters } = filterSlice.actions;
+export const { setSearchValue, setCategoryId, setSort, setCurrentPage, setFilters } = filterSlice.actions;
 
 // Редьюсер среза — подключается в configureStore
 export default filterSlice.reducer;

@@ -4,7 +4,7 @@ import type { AppDispatch, RootState } from '../redux/store';
 // import axios from 'axios';
 import qs from 'qs';
 import {
-  use,
+  // use,
   useEffect,
   useRef,
   // useState,
@@ -17,7 +17,7 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import { Skeleton } from '../components/PizzaBlock/Skeleton';
 import Sort from '../components/Sort';
-import { SearchContext } from '../context/SearchContext';
+// import { SearchContext } from '../context/SearchContext';
 import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import {
   fetchPizzas,
@@ -29,12 +29,13 @@ const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
   const pizzas = useSelector((state: RootState) => state.pizza.items);
   const status = useSelector((state: RootState) => state.pizza.status);
+  const searchValue = useSelector((state: RootState) => state.filter.searchValue);
   const categoryId = useSelector((state: RootState) => state.filter.categoryId);
   const currentPage = useSelector((state: RootState) => state.filter.currentPage);
   const sortType = useSelector((state: RootState) => state.filter.sort.sortProperty);
   const isMountedRef = useRef(false);
 
-  const { searchValue } = use(SearchContext);
+  // const { searchValue } = use(SearchContext);
 
   // const [pizzas, setPizzas] = useState<Pizza[]>([]);
   // const [isLoading, setIsLoading] = useState(true);
