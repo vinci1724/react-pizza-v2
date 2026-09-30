@@ -1,10 +1,12 @@
 import type { FilterState } from './slices/filterSlice';
+
 import { configureStore } from '@reduxjs/toolkit';
 import qs from 'qs';
 
 import { list } from '../constants/sort';
 import cartReducer from './slices/cartSlice';
 import filterReducer from './slices/filterSlice';
+import pizzaReducer from './slices/pizzaSlice';
 
 // Читаем фильтры из query-строки синхронно, до первого рендера,
 // чтобы состояние стора сразу совпадало с URL и UI не мигал дефолтами.
@@ -30,6 +32,7 @@ export const store = configureStore({
   reducer: {
     filter: filterReducer,
     cart: cartReducer,
+    pizza: pizzaReducer,
   },
   preloadedState: getPreloadedState(),
 });
