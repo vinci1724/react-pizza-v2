@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import qs from 'qs';
 
 import { list } from '../constants/sort';
+import cartReducer from './slices/cartSlice';
 import filterReducer from './slices/filterSlice';
 
 // Читаем фильтры из query-строки синхронно, до первого рендера,
@@ -28,6 +29,7 @@ const getPreloadedState = (): { filter: FilterState } | undefined => {
 export const store = configureStore({
   reducer: {
     filter: filterReducer,
+    cart: cartReducer,
   },
   preloadedState: getPreloadedState(),
 });

@@ -1,11 +1,12 @@
 import type { RootState } from '../redux/store';
 import type { Pizza } from '../types';
+
 import axios from 'axios';
 import qs from 'qs';
 import { use, useEffect, useRef, useState } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
@@ -90,6 +91,7 @@ const Home = () => {
     .map(obj => (
       <PizzaBlock
         key={obj.id}
+        id={obj.id}
         title={obj.title}
         price={obj.price}
         imageUrl={obj.imageUrl}
