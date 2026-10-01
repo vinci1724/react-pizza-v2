@@ -2,11 +2,12 @@ import type { Pizza } from '../types';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 const FullPizza = () => {
   const [pizza, setPizza] = useState<Pizza | null>(null);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPizza = async () => {
@@ -15,6 +16,7 @@ const FullPizza = () => {
         setPizza(data);
       } catch (error) {
         console.error(error);
+        navigate('/');
       }
     };
 

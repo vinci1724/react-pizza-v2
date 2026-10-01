@@ -1,7 +1,8 @@
 // import { useState } from 'react';
 import { Route, Routes } from 'react-router';
 
-import Header from './components/Header';
+import MainLayout from './layouts/MainLayout';
+// import Header from './components/Header';
 // import { SearchContext } from './context/SearchContext';
 import Cart from './pages/Cart';
 import FullPizza from './pages/FullPizza';
@@ -13,19 +14,14 @@ const App = () => {
   // const [searchValue, setSearchValue] = useState('');
 
   return (
-    <div className="wrapper">
-      {/* <SearchContext value={{ searchValue, setSearchValue }}> */}
-      <Header />
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/pizza/:id" element={<FullPizza />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-      {/* </SearchContext> */}
-    </div>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route path="" element={<Home />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="pizza/:id" element={<FullPizza />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 };
 
