@@ -1,6 +1,6 @@
-import type { SortItem } from '../redux/slices/filterSlice';
+import type { Sort } from '../redux/slices/filterSlice';
 
-export const list: SortItem[] = [
+export const list: Sort[] = [
   { name: 'популярности (DESC)', sortProperty: 'rating' },
   { name: 'популярности (ASC)', sortProperty: '-rating' },
   { name: 'цене (DESC)', sortProperty: 'price' },

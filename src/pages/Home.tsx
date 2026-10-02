@@ -10,7 +10,7 @@ import {
   // useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
@@ -105,16 +105,15 @@ const Home = () => {
     //   return false;
     // })
     .map(obj => (
-      <Link key={obj.id} to={`/pizza/${obj.id}`}>
-        <PizzaBlock
-          id={obj.id}
-          title={obj.title}
-          price={obj.price}
-          imageUrl={obj.imageUrl}
-          sizes={obj.sizes}
-          types={obj.types}
-        />
-      </Link>
+      <PizzaBlock
+        key={obj.id}
+        id={obj.id}
+        title={obj.title}
+        price={obj.price}
+        imageUrl={obj.imageUrl}
+        sizes={obj.sizes}
+        types={obj.types}
+      />
     ));
 
   return (

@@ -1,9 +1,9 @@
+import { categories } from '../constants/categories';
+
 interface CategoriesProps {
   value: number;
   onChangeCategory: (id: number) => void;
 }
-
-const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
 const Categories = ({ value, onChangeCategory }: CategoriesProps) => {
   return (

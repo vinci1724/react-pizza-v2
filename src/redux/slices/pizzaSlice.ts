@@ -4,14 +4,31 @@ import type { Pizza } from '../../types';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export type Status = 'idle' | 'loading' | 'success' | 'error';
+// type Status = 'idle' | 'loading' | 'success' | 'error';
 
-export interface PizzaState {
+// не работает из-за erasableSyntaxOnly: true
+// enum Status {
+//   IDLE = 'idle',
+//   LOADING = 'loading',
+//   SUCCESS = 'success',
+//   ERROR = 'error',
+// }
+
+const Status = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  SUCCESS: 'success',
+  ERROR: 'error',
+} as const;
+type RequestStatus = (typeof Status)[keyof typeof Status];
+
+interface PizzaSliceState {
   items: Pizza[];
-  status: Status;
+  status: RequestStatus;
 }
 
-export interface FetchPizzasParams {
+// или type FetchPizzasParams = Record<string, string>;
+interface FetchPizzasParams {
   currentPage: number;
   category: string;
   sortBy: string;
@@ -26,9 +43,9 @@ export const fetchPizzas = createAsyncThunk('pizza/fetchPizzasStatus', async (pa
   return response.data;
 });
 
-const initialState: PizzaState = {
+const initialState: PizzaSliceState = {
   items: [],
-  status: 'idle',
+  status: Status.IDLE,
 };
 
 export const pizzaSlice = createSlice({
@@ -42,15 +59,15 @@ export const pizzaSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPizzas.pending, (state) => {
-        state.status = 'loading';
+        state.status = Status.LOADING;
         state.items = [];
       })
       .addCase(fetchPizzas.fulfilled, (state, action) => {
         state.items = action.payload;
-        state.status = 'success';
+        state.status = Status.SUCCESS;
       })
       .addCase(fetchPizzas.rejected, (state) => {
-        state.status = 'error';
+        state.status = Status.ERROR;
         state.items = [];
       });
   },

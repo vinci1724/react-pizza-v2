@@ -1,4 +1,4 @@
-import type { SortItem } from '../redux/slices/filterSlice';
+import type { Sort as SortItem } from '../redux/slices/filterSlice';
 import type { RootState } from '../redux/store';
 
 import { useEffect, useRef, useState } from 'react';
@@ -21,8 +21,9 @@ const Sort = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (sortRef.current && !event.composedPath().includes(sortRef.current))
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setIsOpen(false);
+      }
     };
     document.body.addEventListener('click', handleClickOutside);
     return () => document.body.removeEventListener('click', handleClickOutside);

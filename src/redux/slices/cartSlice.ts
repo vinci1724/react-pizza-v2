@@ -13,12 +13,12 @@ export interface CartItem {
 
 export type CartItemWithoutCount = Omit<CartItem, 'count'>;
 
-export interface CartState {
+interface CartSliceState {
   totalPrice: number;
   items: CartItem[];
 }
 
-const initialState: CartState = {
+const initialState: CartSliceState = {
   totalPrice: 0,
   items: [],
 };

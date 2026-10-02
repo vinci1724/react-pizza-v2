@@ -1,7 +1,8 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
+
 import { createSlice } from '@reduxjs/toolkit';
 
-export type SortProperty
+type SortProperty
   = | 'rating'
     | '-rating'
     | 'price'
@@ -9,21 +10,21 @@ export type SortProperty
     | 'title'
     | '-title';
 
-export interface SortItem {
+export interface Sort {
   name: string;
   sortProperty: SortProperty;
 }
 
 // Тип состояния этого среза, попадает в стор как state.filter
-export interface FilterState {
+export interface FilterSliceState {
   searchValue: string;
   categoryId: number;
   currentPage: number;
-  sort: SortItem;
+  sort: Sort;
 }
 
 // Начальное состояние: активная категория — 0 («Все»)
-const initialState: FilterState = {
+const initialState: FilterSliceState = {
   searchValue: '',
   categoryId: 0,
   currentPage: 1,
@@ -45,13 +46,13 @@ export const filterSlice = createSlice({
     setCategoryId: (state, action: PayloadAction<number>) => {
       state.categoryId = action.payload;
     },
-    setSort: (state, action: PayloadAction<SortItem>) => {
+    setSort: (state, action: PayloadAction<Sort>) => {
       state.sort = action.payload;
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
-    setFilters: (state, action: PayloadAction<FilterState>) => {
+    setFilters: (state, action: PayloadAction<FilterSliceState>) => {
       state.categoryId = Number(action.payload.categoryId);
       state.currentPage = Number(action.payload.currentPage);
       state.sort = action.payload.sort;

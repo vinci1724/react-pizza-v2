@@ -1,4 +1,4 @@
-import type { FilterState } from './slices/filterSlice';
+import type { FilterSliceState } from './slices/filterSlice';
 
 import { configureStore } from '@reduxjs/toolkit';
 import qs from 'qs';
@@ -10,7 +10,7 @@ import pizzaReducer from './slices/pizzaSlice';
 
 // Читаем фильтры из query-строки синхронно, до первого рендера,
 // чтобы состояние стора сразу совпадало с URL и UI не мигал дефолтами.
-const getPreloadedState = (): { filter: FilterState } | undefined => {
+const getPreloadedState = (): { filter: FilterSliceState } | undefined => {
   if (!window.location.search) {
     return undefined;
   }
