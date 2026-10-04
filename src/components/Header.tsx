@@ -1,5 +1,6 @@
 import type { RootState } from '../redux/store';
 
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
@@ -8,9 +9,15 @@ import Search from './Search';
 
 const Header = () => {
   const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
-  const pizzaCount = useSelector((state: RootState) => state.cart.items.reduce((total, obj) => total += obj.count, 0));
+  const items = useSelector((state: RootState) => state.cart.items);
+  const pizzaCount = items.reduce((total, obj) => total += obj.count, 0);
 
   const location = useLocation();
+
+  useEffect(() => {
+    const json = JSON.stringify(items);
+    localStorage.setItem('cart', json);
+  }, [items]);
 
   return (
     <div className="header">

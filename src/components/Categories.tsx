@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { categories } from '../constants/categories';
 
 interface CategoriesProps {
@@ -5,7 +7,7 @@ interface CategoriesProps {
   onChangeCategory: (id: number) => void;
 }
 
-const Categories = ({ value, onChangeCategory }: CategoriesProps) => {
+const Categories = memo(({ value, onChangeCategory }: CategoriesProps) => {
   return (
     <div className="categories">
       <ul>
@@ -23,6 +25,6 @@ const Categories = ({ value, onChangeCategory }: CategoriesProps) => {
       </ul>
     </div>
   );
-};
+});
 
 export default Categories;

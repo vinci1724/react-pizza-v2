@@ -4,10 +4,11 @@ import type { AppDispatch, RootState } from '../redux/store';
 // import axios from 'axios';
 import qs from 'qs';
 import {
+  // useState,
+  useCallback,
   // use,
   useEffect,
   useRef,
-  // useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -46,9 +47,9 @@ const Home = () => {
   // });
   // const [currentPage, setCurrentPage] = useState(1);
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
