@@ -2,7 +2,7 @@ import ReactPaginateExport from 'react-paginate';
 
 import styles from './Pagination.module.scss';
 
-const ReactPaginate = ReactPaginateExport.default;
+const ReactPaginate = ReactPaginateExport;
 
 interface PaginationProps {
   currentPage: number;

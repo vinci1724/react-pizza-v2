@@ -1,31 +1,31 @@
 # AGENTS.md
 
-Work-in-progress learning project: React 19 + TypeScript + Vite 8, Redux Toolkit, React Router v8, SCSS. UI text and most code comments are Russian — match that.
+Work-in-progress learning project: React 19 + TypeScript + Vite 8, Redux Toolkit, React Router v8, SCSS. UI text and most code comments are Russian — match that. No README, no tests, no CI.
 
 ## Commands
 
 - `npm run dev` — Vite dev server.
-- `npm run build` — `tsc -b && vite build`. **Currently fails** (`tsc -b` exits 2) with exactly 3 pre-existing errors — not caused by your change:
-  - `src/redux/store.ts:21` — preloaded `filter` object omits `searchValue`, required by `FilterState` (also a real bug: URL reload never restores search).
-  - `src/components/Pagination/index.tsx:5` — the `ReactPaginateExport.default` interop shim doesn't typecheck (`.default` missing on the component).
-  - `src/components/Pagination/index.tsx:19` — `event` implicitly `any`.
-- `npx eslint src` / `npm run lint` — both fine now. `eslint.config.mjs` ignores `info/`, so `eslint .` is safe. Currently 0 errors + 3 pre-existing `react-hooks/exhaustive-deps` warnings (`Search`, `FullPizza`, `Home`).
-- No test runner or typecheck script beyond `tsc -b`.
+- `npm run build` — just `vite build`; succeeds (type-checking is *not* part of the build).
+- `npm run typecheck` — `tsc --build --noEmit`; currently passes with 0 errors.
+- `npm run lint` / `npx eslint src` — `eslint .`, 0 errors. Currently 4 pre-existing `react/exhaustive-deps` warnings (not the usual `react-hooks/*` name): `Search/index.tsx:31`, `FullPizza.tsx:24`, `Home.tsx:52`, `Home.tsx:82`. `eslint.config.mjs` ignores `info/`, so `eslint .` is safe. `npm run lint:fix` exists.
+- No test runner exists. Do not assume one.
 
 ## Architecture
 
-- Entry: `src/main.tsx` → `BrowserRouter` > Redux `Provider` > `App`. All routes are nested under `src/layouts/MainLayout.tsx` (Header + `<Outlet/>`): `/`, `/cart`, `/pizza/:id`, `*`.
-- Redux store has three slices: `filter` (`searchValue`, `categoryId`, `currentPage`, `sort`), `cart` (`items`, `totalPrice`), `pizza` (`items`, `status` + `fetchPizzas` `createAsyncThunk`). Home/Cart render from these — no local pizza state anymore.
-- **URL query is the source of truth for filters.** `store.ts` preloads `state.filter` synchronously from `window.location.search` via `qs` before first render; `Home.tsx` writes filter changes back with `navigate('?${qs.stringify({ sortBy, categoryId, currentPage })}')`, skipping the initial render via `isMountedRef`. Preserve this round-trip when touching filters.
-- `src/context/SearchContext.ts` is now **dead** (all usages commented out); search lives in `filterSlice.searchValue`, debounced in `Search` with lodash.
-- `RootState`/`AppDispatch` are exported from `src/redux/store.ts`; `useSelector` is typed with `RootState` in Home/Cart/Sort/Header. `useDispatch()` is still untyped in Search/Sort/Cart/CartItem.
-- API is a hardcoded mockapi.io URL in `redux/slices/pizzaSlice.ts` and `pages/FullPizza.tsx`.
-- `src/components/*` use BEM global class names; only `Search`, `Pagination`, `NotFoundBlock` use `.module.scss`.
+- Entry: `main.tsx` → `BrowserRouter` > Redux `Provider` > `App`. Routes nest under `layouts/MainLayout.tsx` (Header + `<Outlet/>`): `/`, `/cart`, `/pizza/:id`, `*`. Cart is `lazy()` + `Suspense` in `App.tsx`.
+- Three slices: `filter` (`searchValue`, `categoryId`, `currentPage`, `sort`), `cart` (`items`, `totalPrice`), `pizza` (`items`, `status` + `fetchPizzas` `createAsyncThunk`). Components render from these selectors; no local pizza list state.
+- **URL query is the source of truth for filters.** `store.ts` preloads `state.filter` synchronously from `window.location.search` via `qs` before first render (note: `searchValue` is forced to `''`). `Home.tsx` writes changes back with `navigate('?${qs.stringify({ sortBy, categoryId, currentPage })}')`, skipping the initial render via `isMountedRef`. `searchValue` is deliberately *not* in the URL. Preserve this round-trip when touching filters.
+- Cart persists to `localStorage` under key `cart`: written in `Header.tsx`'s `useEffect` (skips first render via `isMountedRef`), read in `cartSlice.ts` via `utils/getCartFromLS.ts`.
+- Known current bug: `cartSlice` calls `calcTotalPrice(state.items);` but discards the return value — `totalPrice` is never recalculated on add/plus/minus/remove/clear, so the Header sum is stale until reload. The reducer must assign it.
+- `context/SearchContext.ts` is **dead** (all usages commented out); search lives in `filterSlice.searchValue`, debounced in `Search` with lodash.
+- `RootState`/`AppDispatch` exported from `redux/store.ts`. `Home` uses typed `useDispatch<AppDispatch>()`; Search/Sort/Cart/CartItem/PizzaBlock still use untyped `useDispatch()`.
+- Copy-pasted hardcoded mockapi.io API URL in `redux/slices/pizzaSlice.ts` and `pages/FullPizza.tsx`.
+- `components/*` use BEM global class names; only `Search`, `Pagination`, `NotFoundBlock` use `.module.scss`.
 
 ## Conventions / gotchas
 
-- `tsconfig.app.json` sets `verbatimModuleSyntax` (use `import type` for type-only imports), `erasableSyntaxOnly` (no TS `enum`, `namespace`, or constructor parameter properties), and `noUnusedLocals`/`noUnusedParameters`.
-- ESLint is `@antfu/eslint-config` with `semi: true`, `braceStyle: 1tbs`, single quotes; `antfu/top-level-function` is off. Zed runs ESLint `--fix` on save (`.zed/settings.json`).
-- React Compiler is enabled via `@rolldown/plugin-babel` + `reactCompilerPreset()` in `vite.config.ts`; avoid manual memoization it handles (the existing `useCallback(debounce(...))` in `Search` triggers a warning).
-- Import routing from `react-router`, not `react-router-dom`. React 19 is in use, but `use(Context)` is moot here since `SearchContext` is unused.
-- `info/react-pizza-html/` is the original static EJS/SCSS template the styles were ported from. Reference only: do not modify; it is already eslint-ignored.
+- `tsconfig.app.json` sets `verbatimModuleSyntax` (use `import type` for type-only imports), `erasableSyntaxOnly` (no TS `enum`/`namespace`/constructor param properties — see the const-object `Status` workaround in `pizzaSlice.ts`), plus `noUnusedLocals`/`noUnusedParameters`.
+- ESLint is `@antfu/eslint-config` with `semi: true`, `braceStyle: 1tbs`, single quotes; `antfu/top-level-function` is off. Zed runs ESLint `--fix` via `code_actions_on_format` (`.zed/settings.json`).
+- React Compiler is enabled via `@rolldown/plugin-babel` + `reactCompilerPreset()` in `vite.config.ts`; manual `memo`/`useMemo`/`useCallback` is redundant (existing ones in `Categories`/`Home`/`Search` are leftovers, and `Search`'s `useCallback(debounce(...))` triggers a warning).
+- Import routing from `react-router`, not `react-router-dom`.
+- `info/react-pizza-html/` is the original static EJS/SCSS template the styles were ported from. Reference only: do not modify; it is eslint-ignored.

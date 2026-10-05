@@ -22,6 +22,7 @@ const getPreloadedState = (): { filter: FilterSliceState } | undefined => {
       categoryId: Number(params.categoryId) || 0,
       currentPage: Number(params.currentPage) || 1,
       sort: list.find(obj => obj.sortProperty === params.sortBy) ?? list[0],
+      searchValue: '',
     },
   };
 };

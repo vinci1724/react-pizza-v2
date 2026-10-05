@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
+
 import { createContext } from 'react';
 
 // Контракт контекста: какие данные и функции получат потребители
