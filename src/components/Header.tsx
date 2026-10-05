@@ -1,6 +1,6 @@
 import type { RootState } from '../redux/store';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
@@ -11,12 +11,16 @@ const Header = () => {
   const totalPrice = useSelector((state: RootState) => state.cart.totalPrice);
   const items = useSelector((state: RootState) => state.cart.items);
   const pizzaCount = items.reduce((total, obj) => total += obj.count, 0);
+  const isMountedRef = useRef(false);
 
   const location = useLocation();
 
   useEffect(() => {
-    const json = JSON.stringify(items);
-    localStorage.setItem('cart', json);
+    if (isMountedRef.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('cart', json);
+    }
+    isMountedRef.current = true;
   }, [items]);
 
   return (
